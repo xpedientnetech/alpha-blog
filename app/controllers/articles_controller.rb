@@ -35,6 +35,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @article = Article.find(params[:id])
+    @comments = @article.comments
   end
 
   def destroy
@@ -59,4 +61,4 @@ class ArticlesController < ApplicationController
       end
     end
 
-    end
+end

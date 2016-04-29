@@ -23,10 +23,10 @@
    <p>Categories: <%= render @article.categories %></p>
   <% end %>
   <% if @article.comments.any? %>
-    <p>Comments: <%= render @article.comments %></p>
+    <%= render @article.comments %>
   <% end %>
   <div class="article-actions">
-    <%= link_to "Add Comment", new_comment_path(@article), class: "btn btn-xs btn-info" %>
+    <%= link_to "Add Comment", new_article_comment_path(@article), class: "btn btn-xs btn-info" %>
     <% if logged_in? && (current_user == @article.user || current_user.admin?) %>
       <%= link_to "Edit this article", edit_article_path(@article), class: "btn btn-xs btn-primary" %>
       <%= link_to"Delete this article", article_path(@article), method: :delete, data: {confirm: "Are you sure you want to delete the article?"}, class: "btn btn-xs btn-danger" %>
