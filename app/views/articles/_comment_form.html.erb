@@ -1,4 +1,4 @@
-<%= form_for :comment, :url => article_comments_path(params[:article_id]) do |f| %>
+<%= form_for article_comments_path(:comment_id) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
@@ -16,9 +16,9 @@
       </div>
       <div class="col-sm-8">
         <%= hidden_field_tag :username, current_user.username %>
-        <%= hidden_field_tag :article_id, @comment.article_id %>
+        <%= hidden_field_tag(:article_id, @comment.article.id) %>
         <%= hidden_field_tag :user_id, current_user.id %>
-        <%= text_field_tag :body, @comment.body, class: "form-control", placeholder: "Comment goes here"%>
+        <%= f.text_field :body, class: "form-control", placeholder: "Comment goes here", autofocus: true %>
       </div>
       <div class="col-sm-offset-2 col-sm-10">
         <%= f.submit class: 'btn btn-primary btn-lg' %>

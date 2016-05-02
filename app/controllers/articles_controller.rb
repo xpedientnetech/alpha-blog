@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
     @article.user = current_user
     if @article.save
       flash[:success] = "Article was successfully created"
-      redirect_to article_path(@article)
+      redirect_to article_path([@article, @comment])
      else
       render 'new'
     end
@@ -35,8 +35,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
-    @comments = @article.comments
+    @comment = Comment.new( :article => @article )
   end
 
   def destroy
@@ -51,7 +50,7 @@ class ArticlesController < ApplicationController
     end
     
     def article_params
-      params.require(:article).permit(:title, :description, category_ids: [])
+      params.require(:article).permit(:title, :description, category_ids: [], comment_ids: [])
     end
     
     def require_same_user

@@ -23,7 +23,7 @@
    <p>Categories: <%= render @article.categories %></p>
   <% end %>
   <% if @article.comments.any? %>
-    <%= render @article.comments %>
+    <%= render :partial => 'comments/comment', :collection => @article.comments %>
   <% end %>
   <div class="article-actions">
     <%= link_to "Add Comment", new_article_comment_path(@article), class: "btn btn-xs btn-info" %>

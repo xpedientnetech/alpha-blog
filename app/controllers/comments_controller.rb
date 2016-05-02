@@ -1,52 +1,81 @@
 class CommentsController < ApplicationController
-  before_action :set_article
-  
+  before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: [:show, :edit, :update, :create, :destroy]
+
+  # GET /comments
+  # GET /comments.json
   def index
-     @comments = Comment.paginate(page: params[:page], per_page: 10)     
+    @comments = Comment.all
   end
-   
+
+  # GET /comments/1
+  # GET /comments/1.json
+  def show
+  end
+
+  # GET /comments/new
   def new
     @comment = Comment.new
   end
-   
-  def create
-    @comment = Comment.new(comment_params)
-    @comment.article_id = Article.find(params[:article_id]).id
-    @comment.user_id = current_user.id #or whatever is you session name
-    if @comment.save
-      flash[:success] = "Comment was created successfully"
-      redirect_to article_path(@article)
-    else
-      render 'new'
-    end
-  end
-    
+
+  # GET /comments/1/edit
   def edit
-    @comment = Comment.find(params[:id])
   end
-    
-  def update
-    @comment = Comment.find(params[:id])
-    if @comment.update(comment_params)
-      flash[:success] = "comment name was successfully updated"
-      redirect_to comment_path(@comment)
+
+  # POST /comments
+  # POST /comments.json
+  def create
+    @comment = Comment.new(username: current_user.username, user_id: current_user.id )
+    @comment.article_id = Article.find(params[:article_id]).id
+    @comment.body = params[:body] 
+   
+    if @comment.save
+      flash[:notice] = 'Comment was successfully created.'
+      redirect_to article_comment_path(@article, @comment)
     else
-      render 'edit'
+      flash[:notice] = "Error creating comment: #{@comment.errors}"
+      render "new"
     end
   end
-   
-  def show
-    @comment = Comment.find(params[:id])
-    @article_comments = @comment.articles.paginate(page: params[:page], per_page: 10)
+
+  # PATCH/PUT /comments/1
+  # PATCH/PUT /comments/1.json
+  def update
+    respond_to do |format|
+      if @comment.update(comment_params)
+        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.json { render :show, status: :ok, location: @comment }
+      else
+        format.html { render :edit }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      end
+    end
   end
- 
+
+  # DELETE /comments/1
+  # DELETE /comments/1.json
+  def destroy
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+    @comment.destroy
+    flash[:danger] = "Comment was successfully deleted"
+
+    redirect_to article_path(@article)
+  end
+  
   private
-    def comment_params
-        params.require(:comment).permit(:username, :comment, :article_id, :user_id)
+    # Use callbacks to share common setup or constraints between actions.
+    def set_comment
+     @comment = Comment.find(params[:id])
     end
     
     def set_article
       @article = Article.find(params[:article_id])
     end
-    
+   
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def comment_params
+      params.require(:comment).permit(:username, :body, :article_id, :user_id)
+    end
+
 end
