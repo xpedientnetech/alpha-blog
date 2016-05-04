@@ -36,6 +36,7 @@ class ArticlesController < ApplicationController
 
   def show
     @comment = Comment.new( :article => @article )
+    @comments = @article.comments.order('created_at DESC').page(params[:page]).per_page(10)
   end
 
   def destroy

@@ -58,9 +58,12 @@
           <ul class="dropdown-menu">
             <li><%= link_to "Edit your profile", edit_user_path(current_user) %></li>
             <li><%= link_to "View your profile", user_path(current_user) %></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><%= link_to "View your articles", user_path(current_user) %></li>
+            <li><%= link_to "View your comments", article_comments_path(Article.first.id) %></li>
+            <%if current_user.admin = true %>
+              <li role="separator" class="divider"></li>
+              <li><%= link_to "Show all comments", article_admin_comments_path(Article.first.id) %></li>
+            <% end %>
           </ul>
         </li>
       <% else %>
