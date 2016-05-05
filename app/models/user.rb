@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
     has_many :articles, dependent: :destroy
     has_many :comments, dependent: :destroy
+    has_friendship
+
     before_save { self.email = email.downcase }
     validates :username, presence: true, 
               uniqueness: { case_sensitive: false }, 
