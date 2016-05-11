@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  
   root 'pages#home'
   get 'about', to: 'pages#about'
   
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
   get 'signup', to:'users#new'
   
   resources :users
+  resources :friendships
     
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

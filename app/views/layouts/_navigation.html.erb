@@ -60,8 +60,8 @@
             <li><%= link_to "View your profile", user_path(current_user) %></li>
             <li><%= link_to "View your articles", user_path(current_user) %></li>
             <li><%= link_to "View your comments", article_comments_path(Article.first.id) %></li>
-            <li><%# link_to "View your friends", user_friends_path(current_user) %></li>
-            <%if current_user.admin = true %>
+            <li><%= link_to "View your friends", friendships_path %></li>
+            <% if current_user.admin? %>
               <li role="separator" class="divider"></li>
               <li><%= link_to "Show all comments", article_admin_comments_path(Article.first.id) %></li>
             <% end %>
