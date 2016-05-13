@@ -61,6 +61,7 @@
             <li><%= link_to "View your articles", user_path(current_user) %></li>
             <li><%= link_to "View your comments", article_comments_path(Article.first.id) %></li>
             <li><%= link_to "View your friends", friendships_path %></li>
+            <li><%= link_to "View your blocked users", blocked_users_path %></li>
             <% if current_user.admin? %>
               <li role="separator" class="divider"></li>
               <li><%= link_to "Show all comments", article_admin_comments_path(Article.first.id) %></li>

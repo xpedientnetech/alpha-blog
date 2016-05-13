@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   
+  resources :blocked_users
   root 'pages#home'
   get 'about', to: 'pages#about'
   
